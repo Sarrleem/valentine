@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Will you be my Valentine?</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg1: #ffd6e7;
+      --bg2: #ffeef6;
+      --card: #ffffffcc;
+      --yes: #ff3b7a;
+      --yesHover: #ff1f68;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .card {
+      width: min(720px, 92vw);
+      padding: 26px 22px;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 18px 60px rgba(0,0,0,.15);
+    }
+
+    .art {
+      width: min(300px, 85vw);
+      margin: 0 auto 10px;
+      display: block;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
+    }
+
+    h1 {
+      font-size: clamp(26px, 4vw, 44px);
+      margin: 12px 0 18px;
+    }
+
+    .button-zone {
+      position: relative;
+      width: min(520px, 92%);
+      height: 150px;
+      margin: 0 auto;
+      touch-action: none;
+    }
+
+    button {
+      position: absolute;
+      top: 50%;
+      padding: 16px 24px;
+      font-size: 18px;
+      font-weight: 800;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,.14);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .12s ease, background .12s ease;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    #yesBtn {
+      left: 50%;
+      transform: translate(-120%, -50%);
+      background: var(--yes);
+      color: #fff;
+    }
+    #yesBtn:hover { background: var(--yesHover); }
+
+    #noBtn {
+      left: 50%;
+      transform: translate(20%, -50%);
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      animation: pop .35s ease;
+      max-height: 60vh;
+      overflow: hidden;
+      width: 100%;
+      text-align: center;
+    }
+
+    .result h2 {
+      font-size: clamp(30px, 4.5vw, 46px);
+      margin: 10px 0;
+    }
+
+    .fireworks {
+      width: min(380px, 70vw);
+      max-height: 55vh;
+      height: auto;
+      object-fit: contain;
+      margin: 12px auto;
+      display: block;
+      border-radius: 16px;
+    }
+
+    @keyframes pop {
+      from { transform: scale(.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .art {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <main class="card">
+    <svg class="art" viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bunnyPink" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffb3d4"/>
+          <stop offset="100%" stop-color="#ff8cb8"/>
+        </linearGradient>
+        <linearGradient id="bunnyPurple" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8d4ff"/>
+          <stop offset="100%" stop-color="#d4b3ff"/>
+        </linearGradient>
+        <linearGradient id="heart" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff6b9d"/>
+          <stop offset="45%" stop-color="#ff4d7d"/>
+          <stop offset="100%" stop-color="#ff1f68"/>
+        </linearGradient>
+        <radialGradient id="blush">
+          <stop offset="0%" stop-color="#ffb3d4" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#ffb3d4" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <g opacity="0.12">
+        <path d="M35 45 C35 30 50 22 60 32 C70 22 85 30 85 45 C85 65 60 80 60 88 C60 80 35 65 35 45Z" fill="#ff9dc6"/>
+        <path d="M255 175 C255 160 270 152 280 162 C290 152 305 160 305 175 C305 195 280 210 280 218 C280 210 255 195 255 175Z" fill="#ff9dc6"/>
+      </g>
+
+      <g>
+        <ellipse cx="80" cy="76" rx="19" ry="48" fill="url(#bunnyPurple)" transform="rotate(-18 80 76)"/>
+        <ellipse cx="80" cy="76" rx="11" ry="35" fill="#f0e6ff" transform="rotate(-18 80 76)"/>
+        <ellipse cx="105" cy="72" rx="18" ry="46" fill="url(#bunnyPurple)" transform="rotate(-3 105 72)"/>
+        <ellipse cx="105" cy="72" rx="10" ry="33" fill="#f0e6ff" transform="rotate(-3 105 72)"/>
+        <circle cx="92.5" cy="120" r="39" fill="url(#bunnyPurple)"/>
+        <ellipse cx="70" cy="126" rx="12" ry="9" fill="url(#blush)"/>
+        <ellipse cx="115" cy="126" rx="12" ry="9" fill="url(#blush)"/>
+        <circle cx="78" cy="116" r="6" fill="#2a2a2a"/>
+        <circle cx="107" cy="116" r="6" fill="#2a2a2a"/>
+        <circle cx="80" cy="114" r="2.4" fill="#fff"/>
+        <circle cx="109" cy="114" r="2.4" fill="#fff"/>
+        <path d="M92.5 130 L89 135 L96 135 Z" fill="#c9a3ff"/>
+        <path d="M92.5 135 Q87 139 83 141 M92.5 135 Q98 139 102 141" stroke="#c9a3ff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="92.5" cy="186" rx="46" ry="52" fill="url(#bunnyPurple)"/>
+        <ellipse cx="68" cy="168" rx="22" ry="30" fill="url(#bunnyPurple)" transform="rotate(-50 68 168)"/>
+        <ellipse cx="117" cy="168" rx="22" ry="30" fill="url(#bunnyPurple)" transform="rotate(50 117 168)"/>
+        <ellipse cx="72" cy="226" rx="21" ry="14" fill="url(#bunnyPurple)" transform="rotate(-7 72 226)"/>
+        <ellipse cx="113" cy="226" rx="21" ry="14" fill="url(#bunnyPurple)" transform="rotate(7 113 226)"/>
+        <ellipse cx="72" cy="226" rx="10" ry="6.5" fill="#d4b3ff" opacity="0.7"/>
+        <ellipse cx="113" cy="226" rx="10" ry="6.5" fill="#d4b3ff" opacity="0.7"/>
+        <circle cx="62" cy="200" r="17" fill="url(#bunnyPurple)" opacity="0.9"/>
+      </g>
+
+      <g>
+        <ellipse cx="260" cy="76" rx="19" ry="48" fill="url(#bunnyPink)" transform="rotate(18 260 76)"/>
+        <ellipse cx="260" cy="76" rx="11" ry="35" fill="#ffe0f0" transform="rotate(18 260 76)"/>
+        <ellipse cx="235" cy="72" rx="18" ry="46" fill="url(#bunnyPink)" transform="rotate(3 235 72)"/>
+        <ellipse cx="235" cy="72" rx="10" ry="33" fill="#ffe0f0" transform="rotate(3 235 72)"/>
+        <g transform="translate(235, 60)">
+          <ellipse cx="-10" cy="3" rx="8" ry="6.5" fill="#ff1f68"/>
+          <ellipse cx="10" cy="3" rx="8" ry="6.5" fill="#ff1f68"/>
+          <circle cx="0" cy="3" r="4.5" fill="#ff1f68"/>
+          <ellipse cx="-10" cy="3" rx="4.5" ry="3.2" fill="#ff6b9d" opacity="0.75"/>
+          <ellipse cx="10" cy="3" rx="4.5" ry="3.2" fill="#ff6b9d" opacity="0.75"/>
+        </g>
+
+        <circle cx="247.5" cy="120" r="39" fill="url(#bunnyPink)"/>
+        <ellipse cx="225" cy="126" rx="13.5" ry="10" fill="url(#blush)"/>
+        <ellipse cx="270" cy="126" rx="13.5" ry="10" fill="url(#blush)"/>
+        <circle cx="238" cy="116" r="7" fill="#2a2a2a"/>
+        <circle cx="257" cy="116" r="7" fill="#2a2a2a"/>
+        <circle cx="240" cy="114" r="2.6" fill="#fff"/>
+        <circle cx="259" cy="114" r="2.6" fill="#fff"/>
+
+        <path d="M232 112 L230 107 M235 110 L233 105 M239 109 L239 104" stroke="#2a2a2a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M251 112 L249 107 M254 110 L252 105 M258 109 L258 104" stroke="#2a2a2a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M247.5 130 L244 135 L251 135 Z" fill="#ff8cb8"/>
+        <path d="M247.5 135 Q242 139 238 141 M247.5 135 Q253 139 257 141" stroke="#ff8cb8" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="247.5" cy="186" rx="46" ry="52" fill="url(#bunnyPink)"/>
+        <ellipse cx="223" cy="168" rx="22" ry="30" fill="url(#bunnyPink)" transform="rotate(-50 223 168)"/>
+        <ellipse cx="272" cy="168" rx="22" ry="30" fill="url(#bunnyPink)" transform="rotate(50 272 168)"/>
+        <ellipse cx="227" cy="226" rx="21" ry="14" fill="url(#bunnyPink)" transform="rotate(-7 227 226)"/>
+        <ellipse cx="268" cy="226" rx="21" ry="14" fill="url(#bunnyPink)" transform="rotate(7 268 226)"/>
+        <ellipse cx="227" cy="226" rx="10" ry="6.5" fill="#ff8cb8" opacity="0.7"/>
+        <ellipse cx="268" cy="226" rx="10" ry="6.5" fill="#ff8cb8" opacity="0.7"/>
+        <circle cx="278" cy="200" r="17" fill="url(#bunnyPink)" opacity="0.9"/>
+        <g transform="translate(283, 195)">
+          <ellipse cx="-5" cy="0" rx="5" ry="3.5" fill="#ff4d7d"/>
+          <ellipse cx="5" cy="0" rx="5" ry="3.5" fill="#ff4d7d"/>
+          <circle cx="0" cy="0" r="2.5" fill="#ff4d7d"/>
+        </g>
+      </g>
+
+      <g filter="url(#glow)">
+        <path d="M170 158 C132 105 95 130 95 180 C95 205 120 225 145 235 L170 245 L195 235 C220 225 245 205 245 180 C245 130 208 105 170 158 Z" fill="url(#heart)"/>
+        <ellipse cx="142" cy="168" rx="13" ry="16" fill="#fff" opacity="0.38" transform="rotate(-38 142 168)"/>
+        <ellipse cx="158" cy="160" rx="7" ry="10" fill="#fff" opacity="0.5"/>
+        <circle cx="125" cy="170" r="3.2" fill="#fff" opacity="0.95"/>
+        <circle cx="215" cy="170" r="2.8" fill="#fff" opacity="0.9"/>
+        <circle cx="170" cy="135" r="2.5" fill="#fff" opacity="0.92"/>
+      </g>
+
+      <g opacity="0.75">
+        <circle cx="62" cy="82" r="2.8" fill="#fff"/>
+        <circle cx="278" cy="140" r="2.3" fill="#fff"/>
+        <circle cx="52" cy="210" r="2" fill="#fff"/>
+      </g>
+    </svg>
+
+    <h1 id="question"></h1>
+
+    <section class="button-zone" id="zone">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </section>
+
+    <div class="hint" id="hint">Even 'No' is whispering 'Yes'…🥰</div>
+
+    <section class="result" id="result">
+      <h2>YAY!🎉</h2>
+      <img
+        class="fireworks"
+        src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGRpYTBhYTNlZThiNmo3cTgyczcwc3hxMGZ3OWJqNzE0Y2x5YTg4eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7iZQzo9r0LcFnP0nnm/giphy.gif"
+        alt="Fireworks"
+      />
+    </section>
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name') || "Ulee";
+    document.getElementById('question').textContent = `${name}, will you be my valentine?`;
+
+    const zone = document.getElementById("zone");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const hint = document.getElementById("hint");
+    const result = document.getElementById("result");
+    const confettiCanvas = document.getElementById("confettiCanvas");
+
+    let hasMoved = false;
+    let isEmojiShown = false;
+
+    function resizeConfettiCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
+      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
+      confettiCanvas.style.width = "100vw";
+      confettiCanvas.style.height = "100vh";
+    }
+
+    resizeConfettiCanvas();
+    window.addEventListener("resize", resizeConfettiCanvas);
+    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
+
+    const confettiInstance = confetti.create(confettiCanvas, {
+      resize: false,
+      useWorker: true
+    });
+
+    function fullScreenConfetti() {
+      const end = Date.now() + 1600;
+      (function frame() {
+        confettiInstance({
+          particleCount: 12,
+          spread: 90,
+          startVelocity: 45,
+          ticks: 180,
+          origin: { x: Math.random(), y: Math.random() * 0.3 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+      setTimeout(() => {
+        confettiInstance({
+          particleCount: 300,
+          spread: 140,
+          startVelocity: 60,
+          ticks: 220,
+          origin: { x: 0.5, y: 0.55 }
+        });
+      }, 300);
+    }
+
+    let yesScale = 1;
+    function growYes() {
+      yesScale = Math.min(2.2, yesScale + 0.1);
+      yesBtn.style.transform = `translate(-120%, -50%) scale(${yesScale})`;
+    }
+
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    function showShyEmoji() {
+      if (isEmojiShown) return;
+      isEmojiShown = true;
+      const originalText = noBtn.textContent;
+      noBtn.textContent = "🫣";
+
+      setTimeout(() => {
+        noBtn.textContent = originalText;
+        isEmojiShown = false;
+      }, 1000);
+    }
+
+    function moveNo(clientX, clientY) {
+      const z = zone.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
+
+      let dx = (b.left + b.width / 2) - clientX;
+      let dy = (b.top + b.height / 2) - clientY;
+      let mag = Math.hypot(dx, dy) || 1;
+      dx /= mag;
+      dy /= mag;
+
+      let newLeft = (b.left - z.left) + dx * 160;
+      let newTop  = (b.top - z.top) + dy * 160;
+
+      newLeft = clamp(newLeft, 0, z.width - b.width);
+      newTop  = clamp(newTop, 0, z.height - b.height);
+
+      noBtn.style.left = newLeft + "px";
+      noBtn.style.top = newTop + "px";
+      noBtn.style.transform = "none";
+
+      showShyEmoji();
+
+      if (!hasMoved) {
+        hasMoved = true;
+        hint.style.opacity = 0.7;
+      }
+
+      growYes();
+    }
+
+    noBtn.addEventListener("pointerenter", e => {
+      moveNo(e.clientX, e.clientY);
+    });
+
+    noBtn.addEventListener("pointermove", e => {
+      const b = noBtn.getBoundingClientRect();
+      const d = Math.hypot(
+        (b.left + b.width / 2) - e.clientX,
+        (b.top + b.height / 2) - e.clientY
+      );
+      if (d < 140) moveNo(e.clientX, e.clientY);
+    });
+
+    noBtn.addEventListener("touchstart", e => {
+      e.preventDefault();
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        moveNo(touch.clientX, touch.clientY);
+      }
+    }, { passive: false });
+
+    noBtn.addEventListener("touchmove", e => {
+      e.preventDefault();
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const b = noBtn.getBoundingClientRect();
+        const d = Math.hypot(
+          (b.left + b.width / 2) - touch.clientX,
+          (b.top + b.height / 2) - touch.clientY
+        );
+        if (d < 140) moveNo(touch.clientX, touch.clientY);
+      }
+    }, { passive: false });
+
+    noBtn.addEventListener("click", e => e.preventDefault());
+    noBtn.addEventListener("touchend", e => e.preventDefault());
+
+    yesBtn.addEventListener("click", () => {
+      zone.style.display = "none";
+      hint.style.display = "none";
+      result.style.display = "block";
+      resizeConfettiCanvas();
+      fullScreenConfetti();
+    });
+  </script>
+</body>
+</html>

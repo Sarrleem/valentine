@@ -1,0 +1,10 @@
+{
+  "title": "Benim sevgilim olur musun?",
+  "description": "Benim sevgilim olur musun?",
+  "question": "{name}, benim sevgilim olur musun?",
+  "yes": "Evet",
+  "no": "Hayır",
+  "hint": "Hatta **Hayır** bile **Evet** diye fısıldıyor…🥰",
+  "yay": "YAŞASIN!🎉",
+  "noVariants": ["🫣", "Evet mi?", "Hayır?!", "Hehe", "😈", "…?", "👀"]
+}

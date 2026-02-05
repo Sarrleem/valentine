@@ -1,0 +1,10 @@
+{
+  "title": "Haluatko olla minun Valentineni?",
+  "description": "Haluatko olla minun Valentineni?",
+  "question": "{name}, haluatko olla minun Valentineni?",
+  "yes": "Kyllä",
+  "no": "Ei",
+  "hint": "Jopa **Ei** kuiskaa **Kyllä**…🥰",
+  "yay": "JEE!🎉",
+  "noVariants": ["🫣", "Kyllä?", "Ei?!", "Hehe", "😈", "…?", "👀"]
+}

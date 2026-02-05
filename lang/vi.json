@@ -1,0 +1,10 @@
+{
+  "title": "Bạn sẽ làm Valentine của mình chứ?",
+  "description": "Bạn sẽ làm Valentine của mình chứ?",
+  "question": "{name}, bạn sẽ làm Valentine của mình chứ?",
+  "yes": "Có",
+  "no": "Không",
+  "hint": "Ngay cả **Không** cũng đang thì thầm **Có**…🥰",
+  "yay": "YAY!🎉",
+  "noVariants": ["🫣", "Có?", "Không?!", "Hihi", "😈", "…?", "👀"]
+}

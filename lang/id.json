@@ -1,0 +1,10 @@
+{
+  "title": "Mau jadi Valentine-ku?",
+  "description": "Mau jadi Valentine-ku?",
+  "question": "{name}, mau jadi Valentine-ku?",
+  "yes": "Ya",
+  "no": "Tidak",
+  "hint": "Bahkan **Tidak** berbisik **Ya**…🥰",
+  "yay": "YEAAY!🎉",
+  "noVariants": ["🫣", "Ya?", "Tidak?!", "Hehe", "😈", "…?", "👀"]
+}

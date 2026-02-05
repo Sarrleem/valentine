@@ -1,0 +1,10 @@
+{
+  "title": "Zostaniesz moją Walentynką?",
+  "description": "Zostaniesz moją Walentynką?",
+  "question": "{name}, zostaniesz moją Walentynką?",
+  "yes": "Tak",
+  "no": "Nie",
+  "hint": "Nawet **Nie** szepcze już **Tak**…🥰",
+  "yay": "TAK!🎉",
+  "noVariants": ["🫣", "Tak?", "Nie?!", "Hehe", "😈", "…?", "👀"]
+}

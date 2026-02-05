@@ -1,0 +1,10 @@
+{
+  "title": "Vrei să fii Valentine-ul meu?",
+  "description": "Vrei să fii Valentine-ul meu?",
+  "question": "{name}, vrei să fii Valentine-ul meu?",
+  "yes": "Da",
+  "no": "Nu",
+  "hint": "Chiar și **Nu** șoptește **Da**…🥰",
+  "yay": "DAAA!🎉",
+  "noVariants": ["🫣", "Da?", "Nu?!", "Hehe", "😈", "…?", "👀"]
+}

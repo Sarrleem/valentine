@@ -1,0 +1,10 @@
+{
+  "title": "Wil je mijn Valentijn zijn?",
+  "description": "Wil je mijn Valentijn zijn?",
+  "question": "{name}, wil je mijn Valentijn zijn?",
+  "yes": "Ja",
+  "no": "Nee",
+  "hint": "Zelfs **Nee** fluistert **Ja**…🥰",
+  "yay": "JAAA!🎉",
+  "noVariants": ["🫣", "Ja?", "Nee?!", "Haha", "😈", "…?", "👀"]
+}

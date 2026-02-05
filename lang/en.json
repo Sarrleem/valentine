@@ -1,0 +1,10 @@
+{
+  "title": "Will you be my Valentine?",
+  "description": "Will you be my Valentine?",
+  "question": "{name}, will you be my valentine?",
+  "yes": "Yes",
+  "no": "No",
+  "hint": "Even **No** is whispering **Yes**…🥰",
+  "yay": "YAY!🎉",
+  "noVariants": ["🫣", "Yes?", "No?!", "Hehe", "😈", "…?", "👀"]
+}

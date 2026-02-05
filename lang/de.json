@@ -1,0 +1,10 @@
+{
+  "title": "Willst du mein Valentin sein?",
+  "description": "Willst du mein Valentin sein?",
+  "question": "{name}, willst du mein Valentin sein?",
+  "yes": "Ja",
+  "no": "Nein",
+  "hint": "Sogar **Nein** flüstert schon **Ja**…🥰",
+  "yay": "JAAA!🎉",
+  "noVariants": ["🫣", "Ja?", "Nein?!", "Hehe", "😈", "…?", "👀"]
+}
